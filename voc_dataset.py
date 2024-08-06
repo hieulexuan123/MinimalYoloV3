@@ -13,7 +13,7 @@ class VOCDataset(Dataset):
         
         with open(list_path, 'r') as file:
             self.image_files = file.readlines() 
-        self.label_files = [path.replace('/kaggle/input/pascal-voc-2007-and-2012/', '').replace('images', 'labels').replace('.png', '.txt').replace('.jpg', '.txt')
+        self.label_files = [path.replace('images', 'labels').replace('.png', '.txt').replace('.jpg', '.txt')
                                 .replace('JPEGImages', 'labels') for path in self.image_files]
     
     def __len__(self):

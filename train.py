@@ -12,15 +12,15 @@ from evaluate import evaluate
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--image_size", type=int, default=416, help="The common width and height for all images")
+    parser.add_argument("--image_size", type=int, default=416, help="Training image width and height")
     parser.add_argument("--multiscale_training", type=bool, default=True, help="allow for multi-scale training")
     parser.add_argument("--batch_size", type=int, default=64, help="The number of images per batch")
     parser.add_argument("--init_lr", type=int, default=0.001, help="Initial learning rate")
     parser.add_argument("--start_epoch", type=int, default=0, help="If start_epoch > 0, training starts from a checkpoint")
     parser.add_argument("--num_epochs", type=int, default=100)
     parser.add_argument("--grad_accum", type=int, default=1, help="Number of batches for grad accumulation")
-    parser.add_argument("--pretrained_weights", type=str, help="Path to load the pretrained weight")
-    parser.add_argument("--ckpt_path", type=str, help="Checkpoint path to save the progress")
+    parser.add_argument("--pretrained_weights", type=str, require=True, help="Path to load the pretrained weight")
+    parser.add_argument("--ckpt_path", type=str, default='checkpoints', help="Checkpoint path to save the progress")
     parser.add_argument("--train_path", type=str, default="dataset/train.txt", help="the path to training set")
     parser.add_argument("--val_path", type=str, default="dataset/2007_test.txt", help="the path to val set")
     parser.add_argument("--class_path", type=str, default="dataset/voc_classes.txt", help="the path to the txt file of class labels")
@@ -60,7 +60,7 @@ def train(args):
     best_mAP = 0
 
     # Train code.
-    for epoch in tqdm.tqdm(range(args.num_epochs), desc='Epoch'):
+    for epoch in tqdm.tqdm(range(args.start_epoch, args.num_epochs), desc='Epoch'):
         model.train()
         model.set_training(True)
         
